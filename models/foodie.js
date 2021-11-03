@@ -28,6 +28,7 @@ async function validateFoodie(foodie) {
         name: Joi.string().required(),
         photo: Joi.array(),
         cost: Joi.number().required(),
+        description: Joy.string()
     });
 
     return await schema.validateAsync(foodie)

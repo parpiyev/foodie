@@ -25,26 +25,27 @@ const storage = multer.diskStorage({
     }
 });
 
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
-};
+// const fileFilter = (req, file, cb) => {
+//     console.log(file);
+//     if (file.mimetype === 'image/png' || file.mimetype === 'application/octet-stream') {
+//         cb(null, true);
+//     } else {
+//         cb(null, false);
+//     }
+// };
 
 const upload = multer({
     storage: storage,
     limits: {
         fileSize: 1024 * 1024 * 5
     },
-    fileFilter: fileFilter
+    // fileFilter: fileFilter
 });
 
 router.post('/', upload.array('image', 10), async (req, res) => {
     try {
         const validation = await validate(req.body);
-
+        console.log(req.files);
         let photos = []
         for (let photo of req.files) {
             photos.push(`/api/file/drinks/${photo.filename}`)
@@ -52,17 +53,20 @@ router.post('/', upload.array('image', 10), async (req, res) => {
 
         const {
             name,
-            cost
+            cost,
+            description
         } = req.body
         let drinks = new Drinks({
             name: name,
             photo: photos,
-            cost: cost
+            cost: cost,
+            description: description
         });
         drinks = await drinks.save();
 
         res.status(201).json({
             success: true,
+            drinks,
             message: "Drink created"
         });
 

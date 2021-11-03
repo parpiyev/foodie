@@ -24,25 +24,25 @@ const storage = multer.diskStorage({
     }
 });
 
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
-};
+// const fileFilter = (req, file, cb) => {
+//     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+//         cb(null, true);
+//     } else {
+//         cb(null, false);
+//     }
+// };
 
 const upload = multer({
     storage: storage,
     limits: {
         fileSize: 1024 * 1024 * 5
     },
-    fileFilter: fileFilter
+    // fileFilter: fileFilter
 });
 
 router.post('/', upload.array('image', 10), async (req, res) => {
     try {
-        const validation = await validate(req.body);
+        // const validation = await validate(req.body);
 
         let photos = []
         for (let photo of req.files) {
@@ -51,12 +51,14 @@ router.post('/', upload.array('image', 10), async (req, res) => {
 
         const {
             name,
-            cost
+            cost,
+            description
         } = req.body
         let foods = new Foodie({
             name: name,
             photo: photos,
-            cost: cost
+            cost: cost,
+            description: description
         });
         foods = await foods.save();
 
