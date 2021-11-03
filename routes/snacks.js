@@ -38,7 +38,7 @@ const upload = multer({
     limits: {
         fileSize: 1024 * 1024 * 5
     },
-    fileFilter: fileFilter
+    // fileFilter: fileFilter
 });
 
 router.post('/', upload.array('image', 10), async (req, res) => {
@@ -55,12 +55,14 @@ router.post('/', upload.array('image', 10), async (req, res) => {
         })
         const {
             name,
-            cost
+            cost,
+            description
         } = req.body
         let snacks = new Snacks({
             name: name,
             photo: photos,
             cost: cost,
+            description: description,
             category_id: findCategory._id
         });
         snacks = await snacks.save();

@@ -24,6 +24,8 @@ async function validateSouces(souces) {
         name: Joi.string().required(),
         photo: Joi.array(),
         cost: Joi.number().required(),
+        description: Joy.string()
+
     });
 
     return await schema.validateAsync(souces)
