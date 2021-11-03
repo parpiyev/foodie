@@ -44,15 +44,15 @@ const upload = multer({
 router.post('/', upload.array('image', 10), async (req, res) => {
     try {
 
-        const validation = await validate(req.body);
+        // const validation = await validate(req.body);
 
         let photos = []
         for (let photo of req.files) {
             photos.push(`/api/file/snacks/${photo.filename}`)
         }
-        let findCategory = await CategoryModel.findOne({
-            name: "Snacks"
-        })
+        // let findCategory = await CategoryModel.findOne({
+        //     name: "Snacks"
+        // })
         const {
             name,
             cost,
@@ -63,7 +63,7 @@ router.post('/', upload.array('image', 10), async (req, res) => {
             photo: photos,
             cost: cost,
             description: description,
-            category_id: findCategory._id
+            // category_id: findCategory._id
         });
         snacks = await snacks.save();
 

@@ -43,7 +43,7 @@ const upload = multer({
 
 router.post('/', upload.array('image', 10), async (req, res) => {
     try {
-        const validation = await validate(req.body);
+        // const validation = await validate(req.body);
 
         let photos = []
         for (let photo of req.files) {
